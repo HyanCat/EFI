@@ -478,7 +478,7 @@
 				<key>Comment</key>
 				<string>Broadcom WiFi Legacy - Sonoma+</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/IOSkywalkFamily</string>
 				<key>MaxKernel</key>
@@ -496,7 +496,7 @@
 				<key>Comment</key>
 				<string>Broadcom WiFi Legacy - Sonoma+</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/IO80211FamilyLegacy</string>
 				<key>MaxKernel</key>
@@ -514,7 +514,7 @@
 				<key>Comment</key>
 				<string>Broadcom WiFi Legacy - Sonoma+</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/AirPortBrcmNIC</string>
 				<key>MaxKernel</key>
@@ -587,7 +587,7 @@
 				<key>Comment</key>
 				<string>Allow IOSkywalk Downgrade</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>Identifier</key>
 				<string>com.apple.iokit.IOSkywalkFamily</string>
 				<key>MaxKernel</key>
@@ -958,7 +958,7 @@
 				<key>boot-args</key>
 				<string>debug=0x100 keepsyms=1 -v igfxfw=2 igfxonln=1 alcid=1 gfxrst=1 alcdelay=500 shikigva=80 -cdfon -igfxmpc -lilubetaall</string>
 				<key>csr-active-config</key>
-				<data>5wMAAA==</data>
+				<data>JwAAAA==</data>
 				<key>prev-lang:kbd</key>
 				<data>emgtSGFuczoyNTI=</data>
 			</dict>
