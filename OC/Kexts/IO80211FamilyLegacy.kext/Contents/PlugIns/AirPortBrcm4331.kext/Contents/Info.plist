@@ -70,8 +70,8 @@
 	<string>Copyright © 2006-2016 Apple Inc. All rights reserved.</string>
 	<key>OSBundleLibraries</key>
 	<dict>
-		<key>com.apple.iokit.IO80211Family</key>
-		<string>700.0</string>
+		<key>com.apple.iokit.IO80211FamilyLegacy</key>
+		<string>1200.12.2b1</string>
 		<key>com.apple.iokit.IONetworkingFamily</key>
 		<string>3.2</string>
 		<key>com.apple.iokit.IOPCIFamily</key>
