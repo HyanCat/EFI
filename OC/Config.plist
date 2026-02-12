@@ -219,11 +219,6 @@
 				<key>layout-id</key>
 				<data>CwAAAA==</data>
 			</dict>
-			<key>PciRoot(0x0)/Pci(0x2,0x0)</key>
-			<dict>
-				<key>AAPL,ig-platform-id</key>
-				<data>AwCbPg==</data>
-			</dict>
 		</dict>
 		<key>Delete</key>
 		<dict/>
@@ -276,7 +271,7 @@
 				<key>Comment</key>
 				<string>Inject All USB Ports</string>
 				<key>Enabled</key>
-				<false/>
+				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/USBInjectAll</string>
 				<key>MaxKernel</key>
@@ -294,7 +289,7 @@
 				<key>Comment</key>
 				<string>Custom USB Map</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string></string>
 				<key>MaxKernel</key>
@@ -456,7 +451,7 @@
 				<key>Comment</key>
 				<string>V2.7.1</string>
 				<key>Enabled</key>
-				<false/>
+				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/BrcmPatchRAM3</string>
 				<key>MaxKernel</key>
@@ -564,7 +559,7 @@
 				<key>Comment</key>
 				<string>V2.7.1</string>
 				<key>Enabled</key>
-				<false/>
+				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/BlueToolFixup</string>
 				<key>MaxKernel</key>
@@ -582,7 +577,7 @@
 				<key>Comment</key>
 				<string>V2.7.1</string>
 				<key>Enabled</key>
-				<false/>
+				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/BrcmFirmwareData</string>
 				<key>MaxKernel</key>
@@ -681,7 +676,7 @@
 			<key>DisableLinkeditJettison</key>
 			<true/>
 			<key>DisableRtcChecksum</key>
-			<false/>
+			<true/>
 			<key>ExtendBTFeatureFlags</key>
 			<false/>
 			<key>ExternalDiskIcons</key>
