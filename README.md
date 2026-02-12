@@ -1,48 +1,53 @@
-# Hackintosh EFI Configuration for macOS Tahoe (Sequoia Ready)
+# Hackintosh EFI Configuration for MSI B460m (Dual Boot: Ventura & Sequoia)
 
-Latest update: 2026-02-11
+Latest update: 2026-02-12
 OpenCore Version: 1.0.6
-Supported OS: macOS Ventura (13.x) - macOS Sequoia (15.x) / Tahoe (26.x)
+Supported OS: 
+- **macOS Ventura (13.x)** - Fully Functional
+- **macOS Sequoia (15.x)** - Fully Functional (Requires OCLP for WiFi)
 
 ## Hardware Specifications
 
-- **SMBIOS**: iMac20,1
+- **Motherboard**: MSI B460m
 - **CPU**: Intel Core i5 10500 (Comet Lake)
-- **iGPU**: Intel UHD Graphics 630 (`0x3E9B0007`) - Configured as Headless (`0x3E9B0003`)
+- **iGPU**: Intel UHD Graphics 630 (Headless Mode)
+- **dGPU**: AMD RX 570 4GB (Primary)
 - **Ethernet**: Realtek RTL8125 2.5GbE
-- **WiFi/Bluetooth**: Broadcom BCM4331 (Legacy Airport Card) - **Disabled for Installation**
+- **WiFi/Bluetooth**: Broadcom BCM4331 (Legacy Airport Card)
 - **Storage**: WD Blue SN550 NVMe SSD
-- **GPU**: AMD RX 570 4GB
 
-## Key Features
+## Key Features & Fixes
 
-- **Bootloader**: OpenCore 1.0.6
-- **Audio**: AppleALC (Layout ID: 1)
-- **Network**: LucyRTL8125Ethernet (2.5GbE)
-- **WiFi/BT**: Temporarily disabled to ensure safe installation of Sequoia.
-- **USB**: Custom mapped (USBMap.kext)
+- **Universal Boot**: Configured to boot **BOTH** Ventura and Sequoia from a single EFI.
+- **WiFi (Sequoia)**: Patched via OCLP + `IOSkywalkFamily` (MinKernel=23.0.0).
+- **WiFi (Ventura)**: Native support (Patches automatically disabled via MinKernel).
+- **Bluetooth**: Working on both OS versions via `BlueToolFixup`, `BrcmFirmwareData`, `BrcmPatchRAM3`.
+- **AMFI**: Weakened (`amfi=0x80`) to allow legacy WiFi patches on Sequoia.
 
-## Installed Kexts
+## Installed Kexts Status
 
-| Kext | Version | Status | Description |
-|------|---------|--------|-------------|
-| **Lilu** | 1.7.1 | Enabled | Arbitrary kext and process patching |
-| **VirtualSMC** | 1.3.7 | Enabled | SMC emulator |
-| **WhateverGreen** | 1.7.0 | Enabled | Graphics patching |
-| **AppleALC** | 1.9.6 | Enabled | Native audio patching |
-| **LucyRTL8125Ethernet** | 1.2.2 | Enabled | Realtek 2.5GbE driver |
-| **USBMap** | 1.0 | Enabled | Custom USB port mapping |
-| **NVMeFix** | 1.1.3 | **Disabled** | Disabled for Sequoia stability (WD SN550) |
+| Kext | Status | OS Scope | Description |
+|------|--------|----------|-------------|
+| **Lilu** | Enabled | All | Core patching |
+| **VirtualSMC** | Enabled | All | SMC emulation |
+| **WhateverGreen** | Enabled | All | Graphics patching |
+| **AppleALC** | Enabled | All | Audio patching (Layout 1) |
+| **LucyRTL8125Ethernet** | Enabled | All | 2.5GbE Ethernet |
+| **USBInjectAll** | Enables | All | USB Port Injection (Safer for Install) |
+| **USBMap** | Disabled | - | Disabled in favor of InjectAll for broad compatibility |
+| **NVMeFix** | Disabled | - | Disabled to prevent panic with WD SN550 |
 
-### Bluetooth & WiFi (Broadcom Legacy)
-**NOTE**: All Wireless kexts are DISABLED for installation stability. Enable them post-install + OCLP.
+### Wireless Networking (Broadcom)
 
-| Kext | Status | Notes |
-|------|--------|-------|
-| **BrcmPatchRAM3** | Disabled | Bluetooth firmware patching |
-| **BlueToolFixup** | Disabled | Bluetooth fix for Monterey+ |
-| **AirportBrcmFixup** | Disabled | WiFi fixup |
-| **IOSkywalkFamily** | Disabled | Legacy WiFi support |
+| Kext | Status | OS Scope | Notes |
+|------|--------|----------|-------|
+| **BrcmPatchRAM3** | Enabled | All | Bluetooth Firmware |
+| **BrcmFirmwareData** | Enabled | All | Bluetooth Firmware Data |
+| **BlueToolFixup** | Enabled | All | Bluetooth Fix for Monterey+ |
+| **BrcmBluetoothInjector** | **Disabled**| - | **DO NOT ENABLE** (Incompatible with Monterey+) |
+| **IOSkywalkFamily** | Enabled | Sonoma+ | MinKernel: 23.0.0 (Sequoia Only) |
+| **IO80211FamilyLegacy** | Enabled | Sonoma+ | MinKernel: 23.0.0 (Sequoia Only) |
+| **AMFIPass** | Enabled | Sonoma+ | MinKernel: 23.0.0 (Helper for AMFI) |
 
 ## BIOS Settings (MSI B460m)
 
@@ -51,21 +56,20 @@ Supported OS: macOS Ventura (13.x) - macOS Sequoia (15.x) / Tahoe (26.x)
 - **Fast Boot**
 - **CSM** (Compatibility Support Module)
 - **Intel SGX**
-- **CFG Lock** (If available, otherwise Quirk `AppleXcpmCfgLock` handles it)
 
 **Enable:**
 - **VT-d**
 - **Above 4G Decoding**
-- **Hyper-Threading**
 - **EHCI/XHCI Hand-off**
-- **OS Type**: Windows UEFI
-- **IGPU Multi-Monitor**: Enabled (for Headless iGPU)
+- **IGPU Multi-Monitor**: Enabled
 
-## Installation Guide (Sequoia)
+## Post-Install Guide (Sequoia)
 
-1. **Prepare USB**: Copy `EFI` folder to the EFI partition of your USB drive.
-2. **Reset NVRAM**: Boot from USB, select "Reset NVRAM" first.
-3. **Install**: Boot "Install macOS Sequoia".
-4. **Post-Install**:
-   - Once installed, you can attempt to re-enable WiFi/BT kexts.
-   - You will likely need OpenCore Legacy Patcher (OCLP) for Broadcom WiFi on Sequoia.
+1. **Boot**: Select macOS Sequoia.
+2. **WiFi**: If WiFi is missing/broken:
+   - Ensure `amfi=0x80` is in boot-args (Check NVRAM).
+   - Open **OpenCore Legacy Patcher (OCLP)**.
+   - Select "Post-Install Root Patch".
+   - Install "Modern Wireless" patch.
+   - Reboot.
+3. **Ventura**: Should boot natively without any action. WiFi logic is automatically skipped.
